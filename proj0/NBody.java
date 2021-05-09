@@ -1,4 +1,6 @@
 public class NBody {
+    private static String backgroundImage = "./images/starfield.jpg";
+
     public static double readRadius(String filePath){
         In in = new In(filePath);
         in.readInt();
@@ -52,7 +54,7 @@ public class NBody {
             }
 
             /* Show the background */
-            StdDraw.picture(0, 0, "./images/starfield.jpg");
+            StdDraw.picture(0, 0, backgroundImage);
 
             /** Draw all of the Planets */
             for (Planet p : planets) {
@@ -65,7 +67,7 @@ public class NBody {
 
             t += dt;
         }
-        
+
         StdOut.printf("%d\n", planets.length);
         StdOut.printf("%.2e\n", radius);
         for (int i = 0; i < planets.length; i++) {
