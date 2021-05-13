@@ -13,31 +13,31 @@ public class ArrayDeque<T> {
         capacity = 8;
     }
 
-   public int subOne(int i){
+    private int subOne(int i){
         if (i == 0){
             return capacity - 1;
         }
         return i-1;
    }
 
-    public int addOne(int i){
+    private int addOne(int i){
         if (i == capacity - 1){
             return 0;
         }
         return i+1;
     }
-    public int sub(int i, int factor){
+    private int sub(int i, int factor){
         if (i < factor){
             return capacity - factor + i;
         }
         return i-1;
     }
 
-    public boolean isFull(){
+    private boolean isFull(){
         return capacity > size;
     }
 
-    public void resize(int cap){
+    private void resize(int cap){
         T[] newItems = (T[]) new Object[cap];
         int i = 0;
 
