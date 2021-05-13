@@ -28,7 +28,7 @@ public class ArrayDeque<T> {
         while (modCapacity(nextLast + 1) != nextFirst){
             temp[i] = items[modCapacity(nextLast + 1)];
             i += 1;
-            nextLast = modCapacity(nextLast);
+            nextLast = modCapacity(nextLast + 1);
         }
 
         capacity = newSize;
@@ -105,10 +105,6 @@ public class ArrayDeque<T> {
     public T get(int index){
         int target = modCapacity(nextFirst - index - 1 );
         return items[target];
-    }
-
-    public static void main(String[] args) {
-        System.out.println(-1 % 8);
     }
 
 }
