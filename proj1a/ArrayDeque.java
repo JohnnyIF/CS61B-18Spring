@@ -1,110 +1,94 @@
-public class ArrayDeque<T> {
-    private int nextFirst;
-    private int nextLast;
-    private int size;
+public class ArrayDeque<T>{
     private T[] items;
-    private int capacity;
+    private int start ;
+    private int end ;
+    private int size;
 
     public ArrayDeque(){
         items = (T[]) new Object[8];
+        start = 0;
+        end = 1;
         size = 0;
-        nextFirst = 0;
-        nextLast = 7;
-        capacity = 8;
+
+    }
+    private int cal(int i){
+        return (i + items.length) % items.length;
     }
 
-    private int modCapacity(int i) {
-        return (i + capacity) % capacity;
+    public boolean isEmpty() {
+        return size == 0;
     }
 
-    private boolean isFull(){
-        return capacity <= size;
-    }
-
-    private void resize(int newSize){
+    public void resize(int newSize){
         T[] temp = (T[]) new Object[newSize];
-        int i = 0;
-
-        while (modCapacity(nextLast + 1) != nextFirst){
-            temp[i] = items[modCapacity(nextLast + 1)];
-            i += 1;
-            nextLast = modCapacity(nextLast + 1);
+        int j = 0;
+        for(int i =cal(start + 1); j != size; i = cal(i+1)){
+            temp[j] = items[i];
+            j += 1;
         }
-
-        capacity = newSize;
-        nextFirst = i+1;
-        nextLast = capacity - 1;
         items = temp;
+        start = newSize - 1;
+        end = size;
     }
 
-    public void addFirst(T item){
-        if (isFull()){
-            resize(capacity * 2);
+    public void addFirst(T item) {
+        if (size == items.length) {
+            resize(size * 2);
         }
-        items[nextFirst] = item;
+        items[start] = item;
         size += 1;
-        nextFirst = modCapacity( nextFirst + 1);
+        start = cal(start - 1);
     }
 
-    public void addLast(T item){
-        if (isFull()){
-            resize(capacity * 2);
+    public void addLast(T item) {
+        if (size == items.length) {
+            resize(size * 2);
         }
-        items[nextLast] = item;
+        items[end] = item;
         size += 1;
-        nextLast = modCapacity( nextLast - 1);
+        end = cal(end + 1);
     }
 
-    public boolean isEmpty(){
-        if (size == 0){
-            return true;
+    public void printDeque() {
+        for (int i = cal(start + 1); i != end; i = cal(i + 1)) {
+            System.out.print(items[i]);
         }
-        return false;
     }
 
-    public int size(){
+    public T removeFirst() {
+        if (size == 0) {
+            return null;
+        }
+        start = cal(start + 1);
+        T item = items[start];
+        items[start] = null;
+        size -= 1;
+        if (items.length > 16 && size * 2 < items.length) {
+            resize(size);
+        }
+        return item;
+    }
+
+    public T removeLast() {
+        if (size == 0) {
+            return null;
+        }
+        end = cal(end - 1);
+        T item = items[end];
+        items[end] = null;
+        size -= 1;
+        if (items.length > 16 && size * 2 < items.length) {
+            resize(size);
+        }
+        return item;
+    }
+
+    public int size() {
         return size;
     }
 
-    public void printDeque(){
-        if (isEmpty()){
-            return;
-        }
-        int j = modCapacity(nextFirst - 1);
-        while (j != nextLast){
-            System.out.println(items[j]);
-            j = modCapacity(j - 1);
-        }
-    }
-    public T removeFirst(){
-        if (isEmpty()){
-            return null;
-        };
-        nextFirst = modCapacity(nextFirst - 1);
-        T first = items[nextFirst];
-        items[nextFirst] = null;
-        size -= 1;
-        if (size < capacity / 2){
-            resize(capacity / 2);
-        }
-        return first;
-    }
-    public T removeLast(){
-        if (isEmpty()){
-            return null;
-        }
-        nextLast = modCapacity(nextLast + 1);
-        T last = items[nextLast];
-        items[nextLast] = null;
-        size -= 1;
-        if (size < capacity / 2){
-            resize(capacity / 2);
-        }
-        return last;
-    }
-    public T get(int index){
-        int target = modCapacity(nextFirst - index - 1 );
-        return items[target];
+    public T get(int index) {
+        return items[cal(start + index + 1)];
     }
 
 
