@@ -18,7 +18,7 @@ public class ArrayDeque<T> {
     }
 
     private boolean isFull(){
-        return capacity > size;
+        return capacity <= size;
     }
 
     private void resize(int newSize){
@@ -106,5 +106,6 @@ public class ArrayDeque<T> {
         int target = modCapacity(nextFirst - index - 1 );
         return items[target];
     }
+
 
 }
