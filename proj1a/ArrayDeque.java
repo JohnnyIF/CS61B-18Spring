@@ -1,17 +1,17 @@
-public class ArrayDeque<T>{
+public class ArrayDeque<T> {
     private T[] items;
-    private int start ;
-    private int end ;
+    private int start;
+    private int end;
     private int size;
 
-    public ArrayDeque(){
+    public ArrayDeque() {
         items = (T[]) new Object[8];
         start = 0;
         end = 1;
         size = 0;
 
     }
-    private int cal(int i){
+    private int cal(int i) {
         return (i + items.length) % items.length;
     }
 
@@ -19,10 +19,10 @@ public class ArrayDeque<T>{
         return size == 0;
     }
 
-    public void resize(int newSize){
+    private void resize(int newSize) {
         T[] temp = (T[]) new Object[newSize];
         int j = 0;
-        for(int i =cal(start + 1); j != size; i = cal(i+1)){
+        for (int i = cal(start + 1); j != size; i = cal(i + 1)) {
             temp[j] = items[i];
             j += 1;
         }
@@ -63,7 +63,7 @@ public class ArrayDeque<T>{
         T item = items[start];
         items[start] = null;
         size -= 1;
-        if (items.length > 16 && size * 2 < items.length) {
+        if (items.length > 16 && size * 4 < items.length) {
             resize(size);
         }
         return item;
@@ -77,7 +77,7 @@ public class ArrayDeque<T>{
         T item = items[end];
         items[end] = null;
         size -= 1;
-        if (items.length > 16 && size * 2 < items.length) {
+        if (items.length > 16 && size * 4 < items.length) {
             resize(size);
         }
         return item;
@@ -90,6 +90,4 @@ public class ArrayDeque<T>{
     public T get(int index) {
         return items[cal(start + index + 1)];
     }
-
-
 }
