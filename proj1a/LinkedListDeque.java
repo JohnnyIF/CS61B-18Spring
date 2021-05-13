@@ -101,5 +101,5 @@ public class LinkedListDeque<T> {
         return getHelper(current.next, index - 1);
     }
 
-    
+
 }
