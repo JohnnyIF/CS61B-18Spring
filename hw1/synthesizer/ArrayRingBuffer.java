@@ -1,5 +1,6 @@
 // TODO: Make sure to make this class a part of the synthesizer package
 package synthesizer;
+import java.util.Iterator;
 
 //TODO: Make sure to make this class and all of its methods public
 //TODO: Make sure to make this class extend synthesizer.AbstractBoundedQueue<t>
@@ -56,11 +57,11 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         if (isEmpty()) {
             throw new RuntimeException("Ring Buffer Underflow");
         }
-        T first_term = rb[first];
+        T firstTerm = rb[first];
         first = (first + 1) % capacity;
         fillCount -= 1;
 
-        return first_term;
+        return firstTerm;
     }
 
     /**
@@ -77,4 +78,29 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     }
 
     // TODO: When you get to part 5, implement the needed code to support iteration.
+    private class RbIterator implements Iterator<T> {
+        private int count;
+
+        RbIterator() {
+            count = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return count < fillCount;
+        }
+
+        @Override
+        public T next() {
+            T next = peek();
+            count += 1;
+            return next;
+        }
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new RbIterator();
+    }
+
 }
