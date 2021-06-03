@@ -14,7 +14,7 @@ public class Percolation {
         }
         grid = new WeightedQuickUnionUF(N * N + 2);
         status = new boolean[N * N];
-        for (int i = 0; i < 25; i += 1) {
+        for (int i = 0; i < N * N; i += 1) {
             status[i] = false;
         }
         this.N = N;
@@ -37,7 +37,7 @@ public class Percolation {
         boundVal(row, col);
         return status[posConvert(row, col)];
     }
-    public void connect(int row, int col, int index) {
+    private void connect(int row, int col, int index) {
         if (!checkBound(row, col)) {
             return;
         }
