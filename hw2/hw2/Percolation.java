@@ -14,7 +14,7 @@ public class Percolation {
         }
         grid = new WeightedQuickUnionUF(N * N + 2);
         status = new boolean[N * N];
-        for (int i = 0; i < 25; i ++) {
+        for (int i = 0; i < 25; i += 1) {
             status[i] = false;
         }
         this.N = N;
@@ -25,7 +25,7 @@ public class Percolation {
         return row * N + col;
     }
     private boolean checkBound(int row, int col) {
-        return row < N && row > 0 && col < N && col > 0;
+        return row < N && row >= 0 && col < N && col >= 0;
     }
     private void boundVal(int row, int col) {
         if (row < 0 || row > N - 1 || col < 0 || col > N - 1) {
@@ -54,7 +54,7 @@ public class Percolation {
         if (row == 0) {
             grid.union(pos, upper);
         }
-        if (row == N-1) {
+        if (row == N - 1) {
             grid.union(pos, down);
         }
         connect(row - 1, col, pos);

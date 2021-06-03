@@ -1,10 +1,8 @@
 package hw2;
 import edu.princeton.cs.introcs.StdRandom;
-import java.util.Random;
 
 public class PercolationStats {
     private double[] nums;
-    private Random random = new Random();
     public PercolationStats(int N, int T, PercolationFactory pf) {
         if (N <= 0 || T <= 0) {
             throw new IllegalArgumentException();
@@ -13,7 +11,7 @@ public class PercolationStats {
         for (int i = 0; i < T; i += 1) {
             Percolation experiment = pf.make(N);
             while (!experiment.percolates()) {
-                experiment.open(random.nextInt(N), random.nextInt(N));
+                experiment.open(StdRandom.uniform(N), StdRandom.uniform(N));
             }
             nums[i] = (double) experiment.numberOfOpenSites();
         }
@@ -30,7 +28,7 @@ public class PercolationStats {
     public double stddev() {
         double sum = 0;
         for (double i : nums) {
-            sum += (i - mean()) * (i -mean());
+            sum += (i - mean()) * (i - mean());
         }
         return sum / (nums.length - 1);
     }
