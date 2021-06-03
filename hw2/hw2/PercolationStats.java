@@ -1,9 +1,12 @@
 package hw2;
 import edu.princeton.cs.introcs.StdRandom;
+import edu.princeton.cs.introcs.StdStats;
 
 public class PercolationStats {
     private double[] nums;
+    private int T;
     public PercolationStats(int N, int T, PercolationFactory pf) {
+        this.T = T;
         if (N <= 0 || T <= 0) {
             throw new IllegalArgumentException();
         }
@@ -13,31 +16,23 @@ public class PercolationStats {
             while (!experiment.percolates()) {
                 experiment.open(StdRandom.uniform(N), StdRandom.uniform(N));
             }
-            nums[i] = (double) experiment.numberOfOpenSites();
+            nums[i] = (double) experiment.numberOfOpenSites() / (N * N);
         }
     }
 
     public double mean() {
-        double sum = 0;
-        for (double i : nums) {
-            sum += i;
-        }
-        return sum / nums.length;
+        return StdStats.mean(nums);
     }
 
     public double stddev() {
-        double sum = 0;
-        for (double i : nums) {
-            sum += (i - mean()) * (i - mean());
-        }
-        return sum / (nums.length - 1);
+        return StdStats.stddev(nums);
     }
 
     public double confidenceLow() {
-        return mean() - 1.96 * Math.sqrt(stddev() / nums.length);
+        return mean() - 1.96 * stddev() / Math.sqrt(T);
     }
     public double confidenceHigh() {
-        return mean() + 1.96 * Math.sqrt(stddev() / nums.length);
+        return mean() + 1.96 * stddev() / Math.sqrt(T);
     }
 
 }
