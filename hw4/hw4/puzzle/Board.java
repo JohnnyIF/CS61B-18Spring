@@ -97,19 +97,19 @@ public class Board implements WorldState {
 
         return count;
     }
-    private int getDiff(int val, int i, int j) {
-        int x = val / i;
-        int y = val % i;
 
-        if (y == 0) {
-            x = x - 1;
-            y = N - 1;
-        } else {
-            y = y - 1;
-        }
-
-        return Math.abs(x - i) + Math.abs(y - j);
+    private int[] intToXY(int s) {
+        return new int[] { (s - 1) / N, (s - 1) % N };
     }
+
+    private int getDiff(int val, int i, int j) {
+        int count = 0;
+        int[] rightPos = intToXY(val);
+        count += rightPos[0] > i ? rightPos[0] - i : i - rightPos[0];
+        count += rightPos[1] > j ? rightPos[1] - j : j - rightPos[1];
+        return count;
+    }
+
     public int estimatedDistanceToGoal() {
         return manhattan();
     }
