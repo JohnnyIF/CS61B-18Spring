@@ -114,10 +114,16 @@ public class Board implements WorldState {
         return manhattan();
     }
     public boolean equals(Object y) {
-        Board board = (Board) y;
+        if (!(y instanceof Board)) {
+            return false;
+        }
+        Board b = (Board) y;
+        if (this.N != b.N) {
+            return false;
+        }
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (tileAt(i, j) != board.tileAt(i, j)) {
+                if (this.tileAt(i, j) != b.tileAt(i, j)) {
                     return false;
                 }
             }
